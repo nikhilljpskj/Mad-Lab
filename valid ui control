@@ -1,0 +1,67 @@
+package com.example.uicontrol; import android.os.Bundle; import android.view.View; import android.widget.Button; import android.widget.EditText; import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+EditText username, password, email, mobile; Button submit;
+@Override
+protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_main);
+username = findViewById(R.id.editTextUsername); password = findViewById(R.id.editTextPassword); email = findViewById(R.id.editTextEmail);
+mobile = findViewById(R.id.editTextMobile); submit = findViewById(R.id.buttonLogin);
+submit.setOnClickListener(new View.OnClickListener() { @Override
+public void onClick(View v) { if (!validateLogin()) {
+Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
+}
+}
+});
+}
+public boolean validateLogin() {
+if (username.getText().toString().length() == 0) { username.setError("This Field Required"); return false;
+}
+if (!username.getText().toString().matches("[a-zA-Z]+")) { username.setError("Characters only");
+return false;
+}
+if (email.getText().toString().length() == 0) { email.setError("Email is required");
+return false;
+                                               }
+String pattern1 = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
+if (!email.getText().toString().matches(pattern1)) { email.setError("Invalid email id");
+return false;
+}
+if (password.getText().toString().length() < 8) { password.setError("Password must have at least 8 characters"); return false;
+}
+if (!password.getText().toString().matches(".*[a-z].*")) { password.setError("Password must contain at least one lowercase
+character");
+return false;
+}
+if (!password.getText().toString().matches(".*[A-Z].*")) { password.setError("Password must contain at least one uppercase
+character");
+return false;
+}
+if (!password.getText().toString().matches(".*[@#$%^&+=].*")) {
+
+  password.setError("Password must contain at least one special character");
+return false;
+}
+if (mobile.getText().toString().length() != 10) { mobile.setError("Invalid mobile number"); return false;
+}
+if (!mobile.getText().toString().matches(".*[0-9].*")) { mobile.setError("This field contains only digits"); return false;
+}
+return true;
+}
+}
+    
+activity_main.xml
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent"
+android:gravity="center_vertical" android:orientation="vertical" android:padding="16dp">
+<TextView android:id="@+id/textView" android:layout_width="223dp"
+    android:layout_height="78dp" android:text="Form validation" android:textSize="30dp" />
+<EditText android:id="@+id/editTextUsername" android:layout_width="match_parent" android:layout_height="60dp" android:hint="Username" android:inputType="text" />
+<EditText android:id="@+id/editTextPassword" android:layout_width="match_parent" android:layout_height="60dp" android:hint="Password" android:inputType="textPassword" />
+<EditText android:id="@+id/editTextEmail" android:layout_width="match_parent" android:layout_height="60dp" android:ems="10" android:hint="Email" android:inputType="textEmailAddress"
+/>
+<EditText android:id="@+id/editTextMobile" android:layout_width="match_parent" android:layout_height="60dp" android:ems="10" android:hint="Mobile" android:inputType="phone"
+/>
+<Button
+android:id="@+id/buttonLogin" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Submit" />
+</LinearLayout>
+                                                    
